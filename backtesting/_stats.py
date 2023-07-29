@@ -145,6 +145,10 @@ def compute_stats(
     s.loc['_equity_curve'] = equity_df
     s.loc['_trades'] = trades_df
 
+    # add new formula : Net Profit
+    equityIndex = trades_df.iloc[-1]['ExitBar']
+    s.loc['Net Profit']= equity_df.iloc[equityIndex]['Equity'] - equity_df.iloc[0]['Equity']
+
     s = _Stats(s)
     return s
 
