@@ -1077,7 +1077,7 @@ class Backtest:
 
         [FIFO]: https://www.investopedia.com/terms/n/nfa-compliance-rule-2-43b.asp
         """
-
+        self.flag_rasad=0
         if not (isinstance(strategy, type) and issubclass(strategy, Strategy)):
             raise TypeError('`strategy` must be a Strategy sub-type')
         if not isinstance(data, pd.DataFrame):
@@ -1221,6 +1221,7 @@ class Backtest:
                 # Close any remaining open trades so they produce some stats
                 for trade in broker.trades:
                     trade.close()
+                    self.flag_rasad=1
 
                 # Re-run broker one last time to handle orders placed in the last strategy
                 # iteration. Use the same OHLC values as in the last broker iteration.
@@ -1238,9 +1239,10 @@ class Backtest:
                 ohlc_data=self._data,
                 risk_free_rate=0.0,
                 strategy_instance=strategy,
+                flag_rasad=self.flag_rasad,
             )
 
-        return self._results
+        return self._results #,self.flag_rasad
 
     def optimize(self, *,
                  maximize: Union[str, Callable[[pd.Series], float]] = 'SQN',

@@ -37,6 +37,7 @@ def compute_stats(
         equity: np.ndarray,
         ohlc_data: pd.DataFrame,
         strategy_instance: 'Strategy',
+        flag_rasad:float = 2,
         risk_free_rate: float = 0,
 ) -> pd.Series:
     assert -1 < risk_free_rate < 1
@@ -66,6 +67,7 @@ def compute_stats(
             'EntryTime': [t.entry_time for t in trades],
             'ExitTime': [t.exit_time for t in trades],
             'Tag': [t.tag for t in trades],
+            'flag_rasad' : flag_rasad,
         })
         trades_df['Duration'] = trades_df['ExitTime'] - trades_df['EntryTime']
     del trades
